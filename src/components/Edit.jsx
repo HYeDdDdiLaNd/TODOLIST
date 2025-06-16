@@ -1,8 +1,21 @@
-const Edit = () => {
+import { useState } from 'react';
+
+const Edit = ({ onUpdateTodo }) => {
+  const [addTodo, setAddTodo] = useState('');
+  const setAddTodoEvent = (e) => {
+    setAddTodo(e.target.value);
+  };
+  const addTodoList = () => {
+    if (addTodo === '') {
+      return;
+    }
+    onUpdateTodo(addTodo);
+    setAddTodo('');
+  };
   return (
     <div className="add-list">
-      <input type="text" />
-      <button type="button" className="add">
+      <input type="text" value={addTodo} onChange={setAddTodoEvent} />
+      <button type="button" className="add" onClick={addTodoList}>
         추가
       </button>
     </div>

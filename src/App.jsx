@@ -2,25 +2,25 @@ import './App.css';
 import Header from './components/Header';
 import Edit from './components/Edit';
 import List from './components/List';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 function App() {
   const mockTodoListData = [
     {
-      id: 'todo01',
+      id: 'todo1',
       content: '빨래하기',
       date: new Date().toLocaleDateString(),
       isChecked: false,
     },
     {
-      id: 'todo02',
+      id: 'todo2',
       content: '운동하기',
       date: new Date().toLocaleDateString(),
       isChecked: false,
     },
     {
-      id: 'todo03',
-      content: '공부하기',
+      id: 'todo3',
+      content: 'react공부하기',
       date: new Date().toLocaleDateString(),
       isChecked: false,
     },
@@ -28,7 +28,7 @@ function App() {
 
   // todo list 상태관리
   const [lists, setList] = useState(mockTodoListData);
-
+  const idCount = useRef(4);
   const onChangeChecked = (id, checked) => {
     setList(
       lists.map((list) => {
@@ -43,27 +43,40 @@ function App() {
     );
   };
 
+  const onUpdateTodo = (addTodo) => {
+    setList([
+      //배열.. 세팅 중요함...
+      ...lists,
+      {
+        id: `todo${idCount.current++}`,
+        content: addTodo,
+        date: new Date().toLocaleDateString(),
+        isChecked: false,
+      },
+    ]);
+  };
+
   return (
     <div className="wrapper">
       <Header />
-      <Edit />
+      <Edit onUpdateTodo={onUpdateTodo} />
       <List todoData={lists} onChangeChecked={onChangeChecked} />
     </div>
   );
 }
 
 /* **
-  1. 목업 데이터 만들고 임시 리스트 세팅해보기
-  2. 할 일 인풋 기능 추가 버튼 시 목업 데이터에 추가하기
+  1. 목업 데이터 만들고 임시 리스트 세팅해보기 @
+  2. 할 일 인풋 기능 추가 버튼 시 목업 데이터에 추가하기 
     2-1. 인풋 입력된 상태 관리하기
     2-2. 추가 버튼 하면 데이터에 추가되기
     2-3. 추가된 데이터가 그려지는지?
     2-4. 추가하면 인풋 리셋
     2-5.
 
-  3. 체크박스 수정하기
-  4. 검색 시 리스트 필터 돌리기
-    4-1. 대소문자 구분하지 않고
+  3. 체크박스 수정하기 @
+  4. 검색 시 리스트 필터 돌리기 @
+    4-1. 대소문자 구분하지 않고 @
 
   5. 삭제 기능 추가히기
     5-1. 삭제 기능
