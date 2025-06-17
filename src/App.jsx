@@ -56,11 +56,19 @@ function App() {
     ]);
   };
 
+  const onRemoveTodo = (removeTodo) => {
+    setList(lists.filter((list) => list.id !== removeTodo));
+  };
+
   return (
     <div className="wrapper">
       <Header />
       <Edit onUpdateTodo={onUpdateTodo} />
-      <List todoData={lists} onChangeChecked={onChangeChecked} />
+      <List
+        todoData={lists}
+        onChangeChecked={onChangeChecked}
+        onRemoveTodo={onRemoveTodo}
+      />
     </div>
   );
 }
@@ -68,18 +76,17 @@ function App() {
 /* **
   1. 목업 데이터 만들고 임시 리스트 세팅해보기 @
   2. 할 일 인풋 기능 추가 버튼 시 목업 데이터에 추가하기 
-    2-1. 인풋 입력된 상태 관리하기
-    2-2. 추가 버튼 하면 데이터에 추가되기
-    2-3. 추가된 데이터가 그려지는지?
-    2-4. 추가하면 인풋 리셋
-    2-5.
+    2-1. 인풋 입력된 상태 관리하기 @
+    2-2. 추가 버튼 하면 데이터에 추가되기 @
+    2-3. 추가된 데이터가 그려지는지? @
+    2-4. 추가하면 인풋 리셋 @
 
   3. 체크박스 수정하기 @
   4. 검색 시 리스트 필터 돌리기 @
     4-1. 대소문자 구분하지 않고 @
 
-  5. 삭제 기능 추가히기
-    5-1. 삭제 기능
+  5. 삭제 기능 추가히기 @
+    5-1. 삭제 기능 @
 
   6. 완로된 할 일 체크하기
     6-1. 완료된 항목 / 미 완료된 항목 카운트하기

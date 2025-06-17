@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import TodoItem from '../components/TodoItem';
+// import CompleteTodoItem from '../components/CompleteTodoItem';
 
-const List = ({ todoData, onChangeChecked }) => {
+const List = ({ todoData, onChangeChecked, onRemoveTodo }) => {
   const [search, setSearch] = useState('');
   const onChangeSearched = (e) => {
     setSearch(e.target.value);
@@ -33,6 +34,7 @@ const List = ({ todoData, onChangeChecked }) => {
               key={todo.id}
               {...todo}
               onChangeChecked={onChangeChecked}
+              onRemoveTodo={onRemoveTodo}
             />
           );
         })}
