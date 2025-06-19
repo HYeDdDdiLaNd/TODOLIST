@@ -47,11 +47,12 @@ const TodoItem = ({
 // 그래서 아래와 같이 콜백으로 하거나
 //useCallback 훅으로 함수 재생성을 방지함.
 
-export default memo(TodoItem, (prevProps, nextProps) => {
-  if (prevProps.id !== nextProps.id) return false;
-  if (prevProps.content !== nextProps.content) return false;
-  if (prevProps.date !== nextProps.date) return false;
-  if (prevProps.isChecked !== nextProps.isChecked) return false;
+// export default memo(TodoItem, (prevProps, nextProps) => {
+//   if (prevProps.id !== nextProps.id) return false;
+//   if (prevProps.content !== nextProps.content) return false;
+//   if (prevProps.date !== nextProps.date) return false;
+//   if (prevProps.isChecked !== nextProps.isChecked) return false;
 
-  return true;
-});
+//   return true;
+// });
+export default TodoItem;

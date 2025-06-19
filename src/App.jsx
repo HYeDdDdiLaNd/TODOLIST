@@ -2,7 +2,7 @@ import './App.css';
 import Header from './components/Header';
 import Edit from './components/Edit';
 import List from './components/List';
-import { useRef, useState, useReducer } from 'react';
+import { useRef, useState, useReducer, useCallback } from 'react';
 
 const mockTodoListData = [
   {
@@ -52,33 +52,35 @@ function App() {
   const idCount = useRef(4);
   const [state, dispatch] = useReducer(reducer, mockTodoListData); // todo list 상태관리
 
-  const onChangeChecked = (id, checked) => {
-    dispatch({
-      type: 'CHECKED',
-      id: id,
-      checked: checked,
-    });
-  };
+  /* useReducer를 사용해서 외부에서 상태 관리 가능하게 한 로직 */
+  // const onChangeChecked = (id, checked) => {
+  //   dispatch({
+  //     type: 'CHECKED',
+  //     id: id,
+  //     checked: checked,
+  //   });
+  // };
 
-  const onUpdateTodo = (addTodo) => {
-    dispatch({
-      type: 'UPDATE',
-      data: {
-        id: `todo${idCount.current++}`,
-        content: addTodo,
-        date: new Date().toLocaleDateString(),
-        isChecked: false,
-      },
-    });
-  };
+  // const onUpdateTodo = (addTodo) => {
+  //   dispatch({
+  //     type: 'UPDATE',
+  //     data: {
+  //       id: `todo${idCount.current++}`,
+  //       content: addTodo,
+  //       date: new Date().toLocaleDateString(),
+  //       isChecked: false,
+  //     },
+  //   });
+  // };
 
-  const onRemoveTodo = (removeTodo) => {
-    dispatch({
-      type: 'DELETE',
-      id: removeTodo,
-    });
-  };
+  // const onRemoveTodo = (removeTodo) => {
+  //   dispatch({
+  //     type: 'DELETE',
+  //     id: removeTodo,
+  //   });
+  // };
 
+  /* 기존 로직 */
   // const [lists, setList] = useState(mockTodoListData);
   // const onChangeChecked = (id, checked) => {
   //   setList(
@@ -110,6 +112,39 @@ function App() {
   // const onRemoveTodo = (removeTodo) => {
   //   setList(lists.filter((list) => list.id !== removeTodo));
   // };
+
+  /* *useCallback 으로 함수 최적화
+    최적화의 기준
+    1. 기능 구현 먼저 > 이후 마지막에 최적화
+    2. 사용자의 행동에 따라 개수가 많아지거나
+    3. 함수를 많이 가지고 있는 컴포넌트 */
+
+  const onChangeChecked = useCallback((id, checked) => {
+    dispatch({
+      type: 'CHECKED',
+      id: id,
+      checked: checked,
+    });
+  }, []); //빈 배열을 넣으면 최초 마운트 될때만 함수 생성. 함수 메모이제이션
+
+  const onUpdateTodo = useCallback((addTodo) => {
+    dispatch({
+      type: 'UPDATE',
+      data: {
+        id: `todo${idCount.current++}`,
+        content: addTodo,
+        date: new Date().toLocaleDateString(),
+        isChecked: false,
+      },
+    });
+  }, []); //빈 배열을 넣으면 최초 마운트 될때만 함수 생성. 함수 메모이제이션
+
+  const onRemoveTodo = useCallback((removeTodo) => {
+    dispatch({
+      type: 'DELETE',
+      id: removeTodo,
+    });
+  }, []); //빈 배열을 넣으면 최초 마운트 될때만 함수 생성. 함수 메모이제이션
 
   return (
     <div className="wrapper">
