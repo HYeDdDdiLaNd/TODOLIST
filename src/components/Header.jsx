@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 const Header = () => {
   const date = new Date();
   const year = date.getFullYear();
@@ -13,4 +15,5 @@ const Header = () => {
   );
 };
 
-export default Header;
+//인수로 받은 Header 컴포넌트를 props가 변경되지 않았을때는 리렙더링 하지 않게 최적화해서 반환해줌.
+export default memo(Header);
