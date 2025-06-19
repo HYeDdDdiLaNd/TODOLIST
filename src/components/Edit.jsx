@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const Edit = ({ onUpdateTodo }) => {
-  const [addTodo, setAddTodo] = useState('');
+  const [addTodo, setAddTodo] = useState(''); // 간단한 상태관리 useState
   const setAddTodoEvent = (e) => {
     setAddTodo(e.target.value);
   };
