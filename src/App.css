@@ -78,7 +78,6 @@ li {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin: 20px 0 0 0;
 }
 
 .todo-list li {
@@ -106,4 +105,35 @@ li {
   border: none;
   border-radius: 4px;
   font-size: 12px;
+}
+
+.sort {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.sort > dl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.sort dt {
+  font-weight: 500;
+}
+
+.sort dd {
+  font-size: 14px;
+}
+
+.sort > span {
+  display: flex;
+  justify-content: right;
+  gap: 4px;
+  grid-column: 1 / 4;
+  padding: 10px;
+  margin: 20px 0 0 0;
+  border-top: 1px solid #eee;
+  font-size: 14px;
 }
