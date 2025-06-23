@@ -1,7 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useContext } from 'react';
 import TodoItem from '../components/TodoItem';
+import { TodoStateContext } from '../App';
 
-const List = ({ todoData, onChangeChecked, onRemoveTodo }) => {
+const List = () => {
+  const todoData = useContext(TodoStateContext);
   const [search, setSearch] = useState('');
   const [completeTodo, setCompleteTodo] = useState(false);
 
@@ -92,14 +94,7 @@ const List = ({ todoData, onChangeChecked, onRemoveTodo }) => {
       </div>
       <ul className="todo-list">
         {todosFiltered.map((todo) => {
-          return (
-            <TodoItem
-              key={todo.id}
-              {...todo}
-              onChangeChecked={onChangeChecked}
-              onRemoveTodo={onRemoveTodo}
-            />
-          );
+          return <TodoItem key={todo.id} {...todo} />;
         })}
       </ul>
     </div>

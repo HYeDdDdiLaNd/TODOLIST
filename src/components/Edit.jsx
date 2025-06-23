@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { TodoDispatchContext } from '../App';
 
-const Edit = ({ onUpdateTodo }) => {
+const Edit = () => {
+  const { onUpdateTodo } = useContext(TodoDispatchContext);
   const [addTodo, setAddTodo] = useState(''); // 간단한 상태관리 useState
   const setAddTodoEvent = (e) => {
     setAddTodo(e.target.value);

@@ -1,13 +1,8 @@
-import { useState, memo } from 'react';
+import { useState, memo, useContext } from 'react';
+import { TodoDispatchContext } from '../App';
 
-const TodoItem = ({
-  id,
-  content,
-  date,
-  isChecked,
-  onChangeChecked,
-  onRemoveTodo,
-}) => {
+const TodoItem = ({ id, content, date, isChecked }) => {
+  const { onChangeChecked, onRemoveTodo } = useContext(TodoDispatchContext);
   const [checked, setChecked] = useState(isChecked);
   const inputOnchange = (e) => {
     setChecked((e.target.checked = !checked));

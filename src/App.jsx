@@ -2,7 +2,7 @@ import './App.css';
 import Header from './components/Header';
 import Edit from './components/Edit';
 import List from './components/List';
-import { useRef, useState, useReducer, useCallback } from 'react';
+import { useRef, useReducer, useCallback, createContext, useMemo } from 'react';
 
 const mockTodoListData = [
   {
@@ -48,9 +48,12 @@ function reducer(state, action) {
   }
 } //reducer: 컴포넌트 바깥에서 상태 관리 가능.
 
+export const TodoStateContext = createContext();
+export const TodoDispatchContext = createContext();
+
 function App() {
   const idCount = useRef(4);
-  const [state, dispatch] = useReducer(reducer, mockTodoListData); // todo list 상태관리
+  const [todoData, dispatch] = useReducer(reducer, mockTodoListData); // todo list 상태관리
 
   /* useReducer를 사용해서 외부에서 상태 관리 가능하게 한 로직 */
   // const onChangeChecked = (id, checked) => {
@@ -146,15 +149,18 @@ function App() {
     });
   }, []); //빈 배열을 넣으면 최초 마운트 될때만 함수 생성. 함수 메모이제이션
 
+  const memoization = useMemo(() => {
+    return { onChangeChecked, onUpdateTodo, onRemoveTodo }; //함수 재생성 방지가 아님.(이건 useCallback으로 함.) 이 함수가 리렌더링될때마다 만들어내는 객체를 중복 생성 방지임.
+  }, []);
   return (
     <div className="wrapper">
       <Header />
-      <Edit onUpdateTodo={onUpdateTodo} />
-      <List
-        todoData={state}
-        onChangeChecked={onChangeChecked}
-        onRemoveTodo={onRemoveTodo}
-      />
+      <TodoStateContext.Provider value={todoData}>
+        <TodoDispatchContext.Provider value={memoization}>
+          <Edit />
+          <List />
+        </TodoDispatchContext.Provider>
+      </TodoStateContext.Provider>
     </div>
   );
 }
